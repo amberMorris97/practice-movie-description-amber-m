@@ -25,14 +25,15 @@ public class MovieController {
     @Autowired
     MovieRepository movieRepository;
 
-
     @PostMapping(value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> addMovie(@RequestBody MovieDTO movieData) throws HttpException, IOException {
         Client client = new Client();
 
         Movie movie = new Movie(movieData.getTitle(), movieData.getRating());
 
-        String query = "Can you generate a short description for the following movie: " + movie.getTitle();
+        String query = "Provide a 2-3 sentence plot summary for the movie: " + movie.getTitle()
+                + "Return ONLY the text of the description. "
+                + "Do NOT include introductory phrases, quotes, titles, or conversational text.";
 
         GenerateContentResponse response = client.models.generateContent("gemini-3.6-flash", query, null);
 
