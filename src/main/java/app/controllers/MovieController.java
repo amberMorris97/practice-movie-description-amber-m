@@ -29,6 +29,15 @@ public class MovieController {
         return new ResponseEntity<>(allMovies, HttpStatus.OK);
     }
 
+    @GetMapping("/randomMovie")
+    public Movie getRandomMovie() {
+        List<Movie> allMovies = movieRepository.findAll();
+
+        int randomIndex = (int) Math.floor(Math.random() * allMovies.size());
+
+        return allMovies.get(randomIndex);
+    }
+
     @PostMapping(value = "/add", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> addMovie(@RequestBody MovieDTO movieData) throws HttpException, IOException {
         Client client = new Client();
